@@ -1,0 +1,13 @@
+### Create Order 
+POST https://localhost:7240/order
+Content-Type: application/json
+
+{
+}
+
+
+### List Orders 
+GET https://localhost:7240/orders
+
+### List Outbox 
+GET https://localhost:7240/outbox
