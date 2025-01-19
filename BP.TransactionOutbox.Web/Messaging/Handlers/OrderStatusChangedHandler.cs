@@ -1,6 +1,6 @@
 using BP.TransactionOutboxAspire.Web.Models;
 
-namespace BP.TransactionOutboxAspire.Web.Messaging;
+namespace BP.TransactionOutboxAspire.Web.Messaging.Handlers;
 
 public class OrderStatusChangedHandler(
     ILogger<OrderStatusChangedHandler> log,

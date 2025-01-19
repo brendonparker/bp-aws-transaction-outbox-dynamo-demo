@@ -5,6 +5,7 @@ using Amazon.Util;
 using BP.DynamoDbLib;
 using BP.TransactionOutboxAspire.Web;
 using BP.TransactionOutboxAspire.Web.Messaging;
+using BP.TransactionOutboxAspire.Web.Messaging.Handlers;
 using BP.TransactionOutboxAspire.Web.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
