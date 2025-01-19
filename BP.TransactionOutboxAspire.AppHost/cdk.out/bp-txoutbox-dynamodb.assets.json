@@ -1,7 +1,7 @@
 {
   "version": "38.0.0",
   "files": {
-    "009661615ac7fc4bf2c184e4dc27b67009bc7b3712b6bf9f91153676de14c03e": {
+    "97ed3cc8658ed82bf62e9946cd29c8988974be1db0bcc692c978d70ae2a6c5e6": {
       "source": {
         "path": "bp-txoutbox-dynamodb.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "009661615ac7fc4bf2c184e4dc27b67009bc7b3712b6bf9f91153676de14c03e.json",
+          "objectKey": "97ed3cc8658ed82bf62e9946cd29c8988974be1db0bcc692c978d70ae2a6c5e6.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

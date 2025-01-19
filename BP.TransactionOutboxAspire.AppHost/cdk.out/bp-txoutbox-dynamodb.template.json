@@ -28,12 +28,27 @@
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
+  },
+  "Queue4A7E3555": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "ContentBasedDeduplication": true,
+    "FifoQueue": true,
+    "QueueName": "bp-txoutbox-queue.fifo"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   }
  },
  "Outputs": {
   "Table20BB61AFTableName": {
    "Value": {
     "Ref": "TableCD117FA1"
+   }
+  },
+  "Queue30D61B5CQueueUrl": {
+   "Value": {
+    "Ref": "Queue4A7E3555"
    }
   }
  },

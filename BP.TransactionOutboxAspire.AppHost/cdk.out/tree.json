@@ -61,9 +61,43 @@
               "version": "2.160.0"
             }
           },
+          "Queue": {
+            "id": "Queue",
+            "path": "bp-txoutbox-dynamodb/Queue",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "bp-txoutbox-dynamodb/Queue/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {
+                    "contentBasedDeduplication": true,
+                    "fifoQueue": true,
+                    "queueName": "bp-txoutbox-queue.fifo"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                  "version": "2.160.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
+              "version": "2.160.0"
+            }
+          },
           "TableName": {
             "id": "TableName",
             "path": "bp-txoutbox-dynamodb/TableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.160.0"
+            }
+          },
+          "QueueUrl": {
+            "id": "QueueUrl",
+            "path": "bp-txoutbox-dynamodb/QueueUrl",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.160.0"

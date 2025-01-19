@@ -13,6 +13,10 @@
       <ProjectReference Include="..\BP.TransactionOutbox.ServiceDefaults\BP.TransactionOutbox.ServiceDefaults.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.SQS" Version="4.0.0-preview.5" />
+    </ItemGroup>
+
     
 
 </Project>

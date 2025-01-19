@@ -53,6 +53,14 @@ public class Order : EntityBase, ISingleTable
         set => SetField(ref _customerName, value);
     }
 
+    private DateTime? _processedAt;
+
+    public DateTime? ProcessedAt
+    {
+        get => _processedAt;
+        set => SetField(ref _processedAt, value);
+    }
+
     public void Submit()
     {
         if (Status != "Submitted")

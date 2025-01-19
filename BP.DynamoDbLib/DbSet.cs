@@ -7,19 +7,29 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
 {
     private readonly HashSet<TEntity> _trackedEntities = [];
     private readonly HashSet<TEntity> _addedEntities = [];
+    private readonly HashSet<TEntity> _removedEntities = [];
 
     public IEnumerable<IEntity> TrackedEntities()
     {
         foreach (var entity in _trackedEntities) yield return entity;
         foreach (var entity in _addedEntities) yield return entity;
+        foreach (var entity in _removedEntities) yield return entity;
     }
 
     public void Add(TEntity entity) =>
         _addedEntities.Add(entity);
 
-    public async Task<TEntity?> LoadAsync(TEntity key)
+    public void Remove(TEntity entity)
     {
-        var entity = await dbContext.LoadAsync(key);
+        _trackedEntities.Remove(entity);
+        _addedEntities.Remove(entity);
+        _removedEntities.Add(entity);
+    }
+
+
+    public async Task<TEntity?> LoadAsync(TEntity key, CancellationToken ct = default)
+    {
+        var entity = await dbContext.LoadAsync(key, ct);
         if (entity is null) return entity;
         _trackedEntities.Add(entity);
         return entity;
@@ -56,6 +66,11 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
             {
                 transactWrite.AddSaveItem(entity);
             }
+        }
+
+        foreach (var entity in _removedEntities)
+        {
+            transactWrite.AddDeleteItem(entity);
         }
 
         return transactWrite;

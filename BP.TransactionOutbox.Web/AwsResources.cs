@@ -1,9 +1,7 @@
-internal class AwsResources
-{
-    public AwsResourcesTable Table { get; set; } = new();
-}
+namespace BP.TransactionOutboxAspire.Web;
 
-internal class AwsResourcesTable
+public class AwsResources
 {
     public string TableName { get; set; } = null!;
+    public string QueueUrl { get; set; } = null!;
 }

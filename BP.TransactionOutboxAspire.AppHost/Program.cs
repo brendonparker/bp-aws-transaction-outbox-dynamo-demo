@@ -1,6 +1,7 @@
 using Amazon;
 using Amazon.CDK;
 using Amazon.CDK.AWS.DynamoDB;
+using Amazon.CDK.AWS.SQS;
 using Attribute = Amazon.CDK.AWS.DynamoDB.Attribute;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -31,8 +32,16 @@ var table = stack
         BillingMode = BillingMode.PAY_PER_REQUEST
     });
 
+var queue =
+    stack.AddSQSQueue("Queue", new QueueProps
+    {
+        QueueName = "bp-txoutbox-queue.fifo",
+        ContentBasedDeduplication = true,
+    });
+
 builder
     .AddProject<Projects.BP_TransactionOutbox_Web>("API")
-    .WithReference(table);
+    .WithReference(table, t => t.TableName, "TableName", "AWS:Resources")
+    .WithReference(queue, s => s.QueueUrl, "QueueUrl", "AWS:Resources");
 
 builder.Build().Run();

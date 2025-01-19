@@ -19,7 +19,7 @@
         "notificationArns": [],
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/009661615ac7fc4bf2c184e4dc27b67009bc7b3712b6bf9f91153676de14c03e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/97ed3cc8658ed82bf62e9946cd29c8988974be1db0bcc692c978d70ae2a6c5e6.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -49,10 +49,22 @@
             "data": "TableCD117FA1"
           }
         ],
+        "/bp-txoutbox-dynamodb/Queue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Queue4A7E3555"
+          }
+        ],
         "/bp-txoutbox-dynamodb/TableName": [
           {
             "type": "aws:cdk:logicalId",
             "data": "TableName"
+          }
+        ],
+        "/bp-txoutbox-dynamodb/QueueUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueueUrl"
           }
         ],
         "/bp-txoutbox-dynamodb/BootstrapVersion": [
