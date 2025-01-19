@@ -12,7 +12,10 @@ public static class ServiceCollectionExtensions
 
     {
         services.TryAddAWSService<IAmazonDynamoDB>();
-        services.TryAddSingleton(new DynamoDBContextConfig { DisableFetchingTableMetadata = true, });
+        services.TryAddSingleton(new DynamoDBContextConfig
+        {
+            DisableFetchingTableMetadata = true
+        });
         services.TryAddSingleton<IDynamoDBContext, DynamoDBContext>();
         services.TryAddTransient<TContext>();
         return services;

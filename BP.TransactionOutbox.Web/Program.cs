@@ -7,16 +7,29 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
-
-builder.Services.AddDynamoDbContext<AppDbContext>();
 
 AwsResources awsResources = new();
 builder.Configuration.Bind("AWS:Resources", awsResources);
 AWSConfigsDynamoDB.Context.AddMapping(new TypeMapping(typeof(TransactionOutbox), awsResources.Table.TableName));
 AWSConfigsDynamoDB.Context.AddMapping(new TypeMapping(typeof(Order), awsResources.Table.TableName));
 
+builder.AddServiceDefaults();
+
+builder.Services.AddDynamoDbContext<AppDbContext>();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSingleton<LoggingHandler>();
+    builder.Services.AddHttpClient<CustomHttpClientFactory>()
+        .AddHttpMessageHandler<LoggingHandler>();
+}
+
 var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
+{
+    AWSConfigs.HttpClientFactory = app.Services.GetRequiredService<CustomHttpClientFactory>();    
+}
 
 app.MapGet("/", () => awsResources);
 app.MapGet("/orders", async (AppDbContext dbContext) =>

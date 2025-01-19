@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
 using BP.DynamoDbLib;
 
 namespace BP.TransactionOutboxAspire.Web.Models;
@@ -39,13 +38,4 @@ public class TransactionOutbox : IEntity, ISingleTable
 
     public static string Prefix => "Outbox|";
     public static string PrimaryKeyName => nameof(PK);
-}
-
-class JsonElementConverter : IPropertyConverter
-{
-    public DynamoDBEntry ToEntry(object value) =>
-        JsonSerializer.Serialize(value);
-
-    public object FromEntry(DynamoDBEntry entry) =>
-        JsonSerializer.Deserialize<JsonElement>(entry.AsString());
 }
