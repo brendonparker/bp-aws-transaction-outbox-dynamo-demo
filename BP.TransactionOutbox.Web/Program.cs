@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Amazon;
 using Amazon.SQS;
 using Amazon.Util;
@@ -25,6 +26,11 @@ builder.Services
     .AddSingleton<SqsDispatcher>()
     .AddHandler<TxOutboxHandler, ProcessTxOutbox>()
     .AddHandler<OrderStatusChangedHandler, OrderStatusChangedEvent>();
+
+builder.Services.ConfigureHttpJsonOptions(opts =>
+{
+    opts.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 

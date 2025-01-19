@@ -19,9 +19,11 @@ public class SqsProcessor(
         {
             var received = await sqs.ReceiveMessageAsync(new ReceiveMessageRequest(QueueUrl)
             {
+                MaxNumberOfMessages = 1,
                 MessageAttributeNames = ["All"],
-                VisibilityTimeout = 30,
+                VisibilityTimeout = 60,
                 WaitTimeSeconds = 10,
+
             }, stoppingToken);
 
             if (received.Messages == null)

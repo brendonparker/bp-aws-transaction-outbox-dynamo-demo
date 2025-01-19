@@ -3,6 +3,12 @@ using BP.DynamoDbLib;
 
 namespace BP.TransactionOutboxAspire.Web.Models;
 
+public enum OrderStatus
+{
+    Created,
+    Submitted
+}
+
 public class Order : EntityBase, ISingleTable
 {
     [DynamoDBHashKey] public required string PK { get; set; }
@@ -24,7 +30,7 @@ public class Order : EntityBase, ISingleTable
         var order = new Order
         {
             Id = id,
-            Status = "Created",
+            Status = OrderStatus.Created,
             CustomerName = customerName,
             PK = $"{Prefix}{id}",
             SK = "1"
@@ -37,9 +43,9 @@ public class Order : EntityBase, ISingleTable
         return order;
     }
 
-    private string _status = null!;
+    private OrderStatus _status;
 
-    public string Status
+    public OrderStatus Status
     {
         get => _status;
         set => SetField(ref _status, value);
@@ -63,9 +69,9 @@ public class Order : EntityBase, ISingleTable
 
     public void Submit()
     {
-        if (Status != "Submitted")
+        if (Status != OrderStatus.Submitted)
         {
-            Status = "Submitted";
+            Status = OrderStatus.Submitted;
             AddIntegrationEvent(new OrderStatusChangedEvent
             {
                 Id = Id,

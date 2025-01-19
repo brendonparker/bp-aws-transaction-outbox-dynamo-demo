@@ -8,7 +8,7 @@ public class OrderStatusChangedHandler(
 {
     public async Task Handle(OrderStatusChangedEvent message, CancellationToken ct)
     {
-        if (message.Status != "Submitted")
+        if (message.Status != OrderStatus.Submitted)
         {
             log.LogInformation("Only interested in submitted events.");
             return;

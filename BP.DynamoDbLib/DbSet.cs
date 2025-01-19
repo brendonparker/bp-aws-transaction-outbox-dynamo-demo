@@ -26,7 +26,6 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
         _removedEntities.Add(entity);
     }
 
-
     public async Task<TEntity?> LoadAsync(TEntity key, CancellationToken ct = default)
     {
         var entity = await dbContext.LoadAsync(key, ct);
@@ -55,6 +54,7 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
         var entityCount = 0;
         entityCount += _addedEntities.Count;
         entityCount += _trackedEntities.Count(x => x.IsDirty());
+        entityCount += _removedEntities.Count;
         if (entityCount == 0) return null;
 
         var transactWrite = dbContext.CreateTransactWrite<TEntity>();
