@@ -4,5 +4,6 @@ namespace BP.DynamoDbLib;
 
 public interface IDbSet
 {
+    IEnumerable<IEntity> TrackedEntities();
     ITransactWrite? CreateWrite();
 }

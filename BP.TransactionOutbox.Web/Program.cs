@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
-builder.Services.AddDynamoDbLib();
-builder.Services.AddTransient<AppDbContext>();
+builder.Services.AddDynamoDbContext<AppDbContext>();
 
 AwsResources awsResources = new();
 builder.Configuration.Bind("AWS:Resources", awsResources);
@@ -45,19 +44,9 @@ app.MapPost("/order/{id}/submit",
     });
 app.MapPost("/order", async (AppDbContext dbContext) =>
 {
-    var id = DateTime.UtcNow.Ticks;
-    var order = Order.FromKey(id);
-    var tx = new TransactionOutbox
-    {
-        PK = $"Outbox|{id}",
-        SK = "1",
-        Message = "Test"
-    };
-
+    var order = Order.Create("Acme, Inc");
     dbContext.Orders.Add(order);
-    dbContext.TransactionOutboxes.Add(tx);
     await dbContext.SaveAsync();
-
     return order;
 });
 

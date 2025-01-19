@@ -8,6 +8,12 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
     private readonly HashSet<TEntity> _trackedEntities = [];
     private readonly HashSet<TEntity> _addedEntities = [];
 
+    public IEnumerable<IEntity> TrackedEntities()
+    {
+        foreach (var entity in _trackedEntities) yield return entity;
+        foreach (var entity in _addedEntities) yield return entity;
+    }
+
     public void Add(TEntity entity) =>
         _addedEntities.Add(entity);
 
@@ -40,7 +46,7 @@ public class DbSet<TEntity>(IDynamoDBContext dbContext) : IDbSet where TEntity :
         entityCount += _addedEntities.Count;
         entityCount += _trackedEntities.Count(x => x.IsDirty());
         if (entityCount == 0) return null;
-        
+
         var transactWrite = dbContext.CreateTransactWrite<TEntity>();
         transactWrite.AddSaveItems(_addedEntities);
 

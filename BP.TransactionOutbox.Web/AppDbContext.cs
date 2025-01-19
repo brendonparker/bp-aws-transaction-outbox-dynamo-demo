@@ -10,4 +10,17 @@ public class AppDbContext(
 {
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<TransactionOutbox> TransactionOutboxes => Set<TransactionOutbox>();
+
+    public override Task SaveAsync()
+    {
+        foreach (var entity in Entities<EntityBase>())
+        {
+            foreach (var integrationEvent in entity.IntegrationEvents())
+            {
+                TransactionOutboxes.Add(TransactionOutbox.Create(integrationEvent));
+            }
+        }
+
+        return base.SaveAsync();
+    }
 }

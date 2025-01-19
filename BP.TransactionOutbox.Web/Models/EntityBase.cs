@@ -1,10 +1,18 @@
 using System.Runtime.CompilerServices;
 using BP.DynamoDbLib;
 
-namespace BP.TransactionOutboxAspire.Web.Models;
+namespace BP.TransactionOutboxAspire.Web;
 
 public abstract class EntityBase : IEntity
 {
+    private readonly IList<object> _integrationEvents = [];
+
+    protected void AddIntegrationEvent(object integrationEvent) =>
+        _integrationEvents.Add(integrationEvent);
+
+    public IReadOnlyList<object> IntegrationEvents() =>
+        _integrationEvents.AsReadOnly();
+
     private bool _isDirty;
 
     protected void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
